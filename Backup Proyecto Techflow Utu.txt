@@ -1,0 +1,50 @@
+BACKUP AUTOMÁTICO DE UN SITIO WEB
+
+SHELL SCRIPT — backup.sh
+
+#!/bin/bash
+
+FECHA=$(date +%Y%m%d_%H%M%S)
+
+# Backup de archivos del sitio
+tar -czf /ruta/a/backups/backup_sitio_$FECHA.tar.gz /ruta/a/tu/sitio
+
+# Backup de la base de datos
+mysqldump -u usuario -p'password' nombre_basededatos > /ruta/a/backups/backup_db_$FECHA.sql
+
+Para darle permisos de ejecución al script:
+
+chmod +x /ruta/completa/backup.sh
+
+Para comprobar la ubicación de mysqldump:
+
+which mysqldump
+
+
+CRON
+
+Para programar la ejecución automática, abrir el crontab:
+
+crontab -e
+
+Agregar la siguiente línea:
+
+0 2 * * * /ruta/completa/backup.sh
+
+De esta forma, el backup se ejecuta automáticamente todos los días a las 02:00.
+
+Es recomendable utilizar rutas absolutas dentro del script y en la configuración de cron.
+
+Ejemplo:
+
+/home/usuario/scripts/backup.sh
+
+En lugar de:
+
+./backup.sh
+
+También se puede comprobar la ubicación de mysqldump con:
+
+which mysqldump
+
+Si el servidor utiliza Windows, este script necesita un entorno compatible con Bash y cron, como WSL, Git Bash o Cygwin. Otra opción es realizar el mismo proceso mediante PowerShell y el Programador de tareas de Windows.
